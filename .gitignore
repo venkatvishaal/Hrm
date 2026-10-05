@@ -32,7 +32,8 @@ storage/logs/*
 storage/codex_*
 storage/codex_*.html
 storage/codex_cookie.txt
-
+storage/visual-qa/*
+!storage/visual-qa/.gitkeep
 # Backups
 backups/*
 !backups/.gitkeep
