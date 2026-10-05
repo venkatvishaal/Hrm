@@ -1,0 +1,38 @@
+# Dependencies
+vendor/
+node_modules/
+
+# IDE and OS files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# Environment and Local Config files
+.env
+.env.*.local
+config/database.local.php
+
+# Database Dumps
+*.sql
+*.sqlite
+
+# Logs and Session Files
+storage/sess_*
+storage/sessions/sess_*
+storage/logs/*
+!storage/logs/.gitkeep
+
+# Automated Test and Generated Output Files
+storage/codex_*
+storage/codex_*.html
+storage/codex_cookie.txt
+
+# Backups
+backups/*
+!backups/.gitkeep
