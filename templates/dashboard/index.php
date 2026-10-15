@@ -1,14 +1,17 @@
 <?php require __DIR__ . '/../layouts/header.php'; ?>
 <?php
-$totalEmployees  = (int)($counts['employees'] ?? 1248);
-$pendingLeaves   = (int)($counts['leaves'] ?? 12);
-$activeOnboarding = (int)($counts['onboarding'] ?? 5);
-$openTraining    = (int)($counts['training'] ?? 3);
-$kpiReviews      = (int)($counts['performance'] ?? 8);
-$exitRecords     = (int)($counts['exits'] ?? 2);
-$dutyRosters     = (int)($counts['rosters'] ?? 42);
-$pendingDocuments = (int)($counts['pending_documents'] ?? 5);
-$healthDue       = (int)($counts['health_due'] ?? 0);
+$totalEmployees   = (int)($counts['employees'] ?? 0);
+$doctorsCount     = (int)($counts['doctors'] ?? 0);
+$nursesCount      = (int)($counts['nurses'] ?? 0);
+$supportCount     = (int)($counts['support'] ?? max(0, $totalEmployees - $doctorsCount - $nursesCount));
+$pendingLeaves    = (int)($counts['leaves'] ?? 0);
+$activeOnboarding = (int)($counts['onboarding'] ?? 0);
+$openTraining     = (int)($counts['training'] ?? 0);
+$kpiReviews       = (int)($counts['performance'] ?? 0);
+$exitRecords      = (int)($counts['exits'] ?? 0);
+$dutyRosters      = (int)($counts['rosters'] ?? 0);
+$pendingDocuments = (int)($counts['pending_documents'] ?? 0);
+$healthDue        = (int)($counts['health_due'] ?? 0);
 ?>
 
 <div class="content-body">
@@ -35,7 +38,7 @@ $healthDue       = (int)($counts['health_due'] ?? 0);
       </div>
       <div class="stat-metric-bottom">
         <span class="stat-metric-value"><?= number_format($totalEmployees) ?></span>
-        <span class="stat-metric-badge positive">↑ 5%</span>
+        <span class="stat-metric-badge positive">Verified</span>
       </div>
     </div>
 
@@ -48,8 +51,8 @@ $healthDue       = (int)($counts['health_due'] ?? 0);
         <span class="stat-metric-label">Doctors</span>
       </div>
       <div class="stat-metric-bottom">
-        <span class="stat-metric-value">234</span>
-        <span class="stat-metric-badge positive">↑ 3%</span>
+        <span class="stat-metric-value"><?= number_format($doctorsCount) ?></span>
+        <span class="stat-metric-badge positive">Clinical</span>
       </div>
     </div>
 
@@ -62,8 +65,8 @@ $healthDue       = (int)($counts['health_due'] ?? 0);
         <span class="stat-metric-label">Nurses</span>
       </div>
       <div class="stat-metric-bottom">
-        <span class="stat-metric-value">612</span>
-        <span class="stat-metric-badge positive">↑ 4%</span>
+        <span class="stat-metric-value"><?= number_format($nursesCount) ?></span>
+        <span class="stat-metric-badge positive">Nursing</span>
       </div>
     </div>
 
@@ -76,8 +79,8 @@ $healthDue       = (int)($counts['health_due'] ?? 0);
         <span class="stat-metric-label">Support Staff</span>
       </div>
       <div class="stat-metric-bottom">
-        <span class="stat-metric-value">402</span>
-        <span class="stat-metric-badge positive">↑ 2%</span>
+        <span class="stat-metric-value"><?= number_format($supportCount) ?></span>
+        <span class="stat-metric-badge positive">Allied / Admin</span>
       </div>
     </div>
   </div>
@@ -149,38 +152,24 @@ $healthDue       = (int)($counts['health_due'] ?? 0);
         <h3 class="chart-card-title">Recent Activities</h3>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="activity-item">
-          <div class="activity-icon" style="background:#e0f2fe;color:#0284c7">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        <?php if (!empty($recentActivities)): ?>
+          <?php foreach ($recentActivities as $act): ?>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:#e0f2fe;color:#0284c7">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              </div>
+              <div class="activity-meta" style="flex:1">
+                <strong><?= htmlspecialchars(ucwords(str_replace('_', ' ', (string)($act['action'] ?? 'Activity')))) ?></strong>
+                <span><?= htmlspecialchars((string)($act['details'] ?? ($act['entity_type'] ?? 'System Event'))) ?></span>
+              </div>
+              <span style="font-size:11px;color:#94a3b8"><?= !empty($act['created_at']) ? htmlspecialchars(date('h:i A', strtotime($act['created_at']))) : '' ?></span>
+            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div style="padding:24px 16px;text-align:center;color:#64748b;font-size:13px;background:#f8fafc;border-radius:12px">
+            No recent activity recorded yet.
           </div>
-          <div class="activity-meta" style="flex:1">
-            <strong>New employee onboarded</strong>
-            <span>Priya Sharma — Staff Nurse</span>
-          </div>
-          <span style="font-size:11px;color:#94a3b8">10:24 AM</span>
-        </div>
-
-        <div class="activity-item">
-          <div class="activity-icon" style="background:#dcfce7;color:#16a34a">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-          </div>
-          <div class="activity-meta" style="flex:1">
-            <strong>Leave request approved</strong>
-            <span>Ravi Kumar — 2 days (Sick Leave)</span>
-          </div>
-          <span style="font-size:11px;color:#94a3b8">09:18 AM</span>
-        </div>
-
-        <div class="activity-item">
-          <div class="activity-icon" style="background:#fef3c7;color:#d97706">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
-          </div>
-          <div class="activity-meta" style="flex:1">
-            <strong>Training session scheduled</strong>
-            <span>Infection Control Practices</span>
-          </div>
-          <span style="font-size:11px;color:#94a3b8">08:45 AM</span>
-        </div>
+        <?php endif; ?>
       </div>
     </div>
 

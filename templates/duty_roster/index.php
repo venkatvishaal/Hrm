@@ -55,12 +55,21 @@ $exportUrl = static function (string $format) use ($weekStart, $activeFilters): 
 
 <section class="duty-status-panel duty-overview no-print">
   <div class="stats duty-status-stats">
-    <div class="card duty-summary-card duty-summary-success"><strong>Available Today</strong><span><?= (int)($dutyStatusSummary['available'] ?? 0) ?></span></div>
-    <div class="card duty-summary-card duty-summary-info"><strong>Doctors Available</strong><span><?= (int)($dutyStatusSummary['doctors'] ?? 0) ?></span></div>
-    <div class="card duty-summary-card duty-summary-danger"><strong>Off Today</strong><span><?= (int)($dutyStatusSummary['off'] ?? 0) ?></span></div>
-    <button type="button" class="card duty-summary-card duty-shortage-card <?= !empty($staffShortageAlerts) ? 'has-alerts duty-summary-danger' : 'duty-summary-success' ?>" data-open-duty-modal data-duty-modal-tab="shortage">
-      <strong>Staff Shortage Alerts</strong>
-      <span><?= count($staffShortageAlerts ?? []) ?></span>
+    <div class="clinical-kpi-card accent-green" style="padding:14px 18px">
+      <span class="clinical-kpi-label">Available Today</span>
+      <div class="clinical-kpi-value" style="font-size:22px"><?= (int)($dutyStatusSummary['available'] ?? 0) ?></div>
+    </div>
+    <div class="clinical-kpi-card accent-blue" style="padding:14px 18px">
+      <span class="clinical-kpi-label">Doctors Available</span>
+      <div class="clinical-kpi-value" style="font-size:22px"><?= (int)($dutyStatusSummary['doctors'] ?? 0) ?></div>
+    </div>
+    <div class="clinical-kpi-card accent-amber" style="padding:14px 18px">
+      <span class="clinical-kpi-label">Off Today</span>
+      <div class="clinical-kpi-value" style="font-size:22px"><?= (int)($dutyStatusSummary['off'] ?? 0) ?></div>
+    </div>
+    <button type="button" class="clinical-kpi-card <?= !empty($staffShortageAlerts) ? 'accent-red' : 'accent-teal' ?>" style="padding:14px 18px;text-align:left;cursor:pointer;border:1px solid #e2e8f0;background:#ffffff;font-family:inherit" data-open-duty-modal data-duty-modal-tab="shortage">
+      <span class="clinical-kpi-label" style="color:<?= !empty($staffShortageAlerts) ? '#dc2626' : '#64748b' ?>">Staff Shortage Alerts</span>
+      <div class="clinical-kpi-value" style="font-size:22px;color:<?= !empty($staffShortageAlerts) ? '#dc2626' : '#0f766e' ?>"><?= count($staffShortageAlerts ?? []) ?></div>
     </button>
   </div>
   <div class="duty-head-actions">
@@ -348,7 +357,7 @@ $exportUrl = static function (string $format) use ($weekStart, $activeFilters): 
     <button type="submit" class="btn-compact duty-assign-btn">Assign</button>
   </form>
 
-  <table class="roster-grid roster-grid-compact">
+  <table class="roster-grid roster-grid-compact clinical-table-dense">
     <tr>
       <th>Employee</th>
       <?php foreach ($days as $d): ?>
@@ -364,9 +373,17 @@ $exportUrl = static function (string $format) use ($weekStart, $activeFilters): 
     <?php foreach ($grid as $row): ?>
       <tr id="employee-<?= (int)$row['employee']['id'] ?>" class="roster-employee-row">
         <td>
-          <strong><?= htmlspecialchars($row['employee']['first_name'].' '.$row['employee']['last_name']) ?></strong>
-          <span><?= htmlspecialchars((string)($row['employee']['employee_code'] ?? '')) ?></span>
-          <small><?= $renderEmployeeMeta($row['employee']) ?></small>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="clinical-avatar" style="width:34px;height:34px;font-size:11px;flex-shrink:0">
+              <?= htmlspecialchars(strtoupper(substr((string)($row['employee']['first_name'] ?? 'S'), 0, 1) . substr((string)($row['employee']['last_name'] ?? 'M'), 0, 1))) ?>
+              <span class="clinical-avatar-badge online"></span>
+            </div>
+            <div>
+              <strong><?= htmlspecialchars($row['employee']['first_name'].' '.$row['employee']['last_name']) ?></strong>
+              <span style="font-size:11px;color:#64748b;display:block"><?= htmlspecialchars((string)($row['employee']['employee_code'] ?? '')) ?></span>
+              <small><?= $renderEmployeeMeta($row['employee']) ?></small>
+            </div>
+          </div>
         </td>
         <?php foreach ($days as $d): ?>
           <?php

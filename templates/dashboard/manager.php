@@ -2,10 +2,10 @@
 <?php
   $managerName = (string)($managerEmployee['first_name'] ?? ($user['name'] ?? 'Manager'));
   $deptName = (string)($department ?? 'Medical');
-  $teamCount = (int)($teamCount ?? 28);
-  $onLeaveCount = (int)($onLeaveCount ?? 4);
-  $pendingCount = (int)($pendingApprovalsCount ?? 6);
-  $trainingDueCount = 8;
+  $teamCount = (int)($teamCount ?? 0);
+  $onLeaveCount = (int)($onLeaveCount ?? 0);
+  $pendingCount = (int)($pendingApprovalsCount ?? 0);
+  $trainingDueCount = count($upcomingTraining ?? []);
   $presentCount = max(0, $teamCount - $onLeaveCount);
 ?>
 
@@ -124,26 +124,8 @@
               </div>
             <?php endforeach; ?>
           <?php else: ?>
-            <div style="padding:14px;background:#f8fafc;border-radius:12px;display:flex;justify-content:space-between;align-items:center">
-              <div>
-                <strong style="font-size:13px;color:#0f172a">Priya Sharma</strong>
-                <div style="font-size:11.5px;color:#64748b">Sick Leave • 2 days</div>
-              </div>
-              <span style="padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;background:#fef3c7;color:#b45309">Pending</span>
-            </div>
-            <div style="padding:14px;background:#f8fafc;border-radius:12px;display:flex;justify-content:space-between;align-items:center">
-              <div>
-                <strong style="font-size:13px;color:#0f172a">Ravi Kumar</strong>
-                <div style="font-size:11.5px;color:#64748b">Casual Leave • 1 day</div>
-              </div>
-              <span style="padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;background:#fef3c7;color:#b45309">Pending</span>
-            </div>
-            <div style="padding:14px;background:#f8fafc;border-radius:12px;display:flex;justify-content:space-between;align-items:center">
-              <div>
-                <strong style="font-size:13px;color:#0f172a">Anita Verma</strong>
-                <div style="font-size:11.5px;color:#64748b">Earned Leave • 3 days</div>
-              </div>
-              <span style="padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;background:#dcfce7;color:#15803d">Approved</span>
+            <div style="padding:24px 16px;text-align:center;color:#64748b;font-size:13px;background:#f8fafc;border-radius:12px">
+              No leave requests currently recorded for your department.
             </div>
           <?php endif; ?>
         </div>
@@ -160,31 +142,26 @@
         </div>
 
         <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid #e2e8f0;border-radius:12px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:40px;height:40px;border-radius:10px;background:#0d474c;display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:18px">
-                🫀
+          <?php if (!empty($upcomingTraining)): ?>
+            <?php foreach ($upcomingTraining as $ts): ?>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid #e2e8f0;border-radius:12px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="width:40px;height:40px;border-radius:10px;background:#0d474c;display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:18px">
+                    🎓
+                  </div>
+                  <div>
+                    <strong style="display:block;font-size:13.5px;color:#0f172a"><?= htmlspecialchars((string)($ts['title'] ?? 'Training Session')) ?></strong>
+                    <span style="font-size:11.5px;color:#64748b"><?= htmlspecialchars(fmt_date($ts['session_date'] ?? date('Y-m-d'))) ?> • <?= (int)($ts['participants'] ?? 0) ?> Participants</span>
+                  </div>
+                </div>
+                <span style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#e0f2fe;color:#0284c7">Upcoming</span>
               </div>
-              <div>
-                <strong style="display:block;font-size:13.5px;color:#0f172a">Advanced Cardiac Life Support</strong>
-                <span style="font-size:11.5px;color:#64748b">Nov 5, 2026 • 25 Participants</span>
-              </div>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <div style="padding:24px 16px;text-align:center;color:#64748b;font-size:13px;background:#f8fafc;border-radius:12px">
+              No upcoming training sessions scheduled.
             </div>
-            <span style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#e0f2fe;color:#0284c7">Upcoming</span>
-          </div>
-
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid #e2e8f0;border-radius:12px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:40px;height:40px;border-radius:10px;background:#0f766e;display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:18px">
-                🧼
-              </div>
-              <div>
-                <strong style="display:block;font-size:13.5px;color:#0f172a">Infection Control Practices</strong>
-                <span style="font-size:11.5px;color:#64748b">Nov 20, 2026 • 18 Participants</span>
-              </div>
-            </div>
-            <span style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#e0f2fe;color:#0284c7">Upcoming</span>
-          </div>
+          <?php endif; ?>
         </div>
       </div>
     </div>

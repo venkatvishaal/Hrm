@@ -69,6 +69,7 @@ if ($db->fetch("SHOW TABLES LIKE 'employee_internal_requests'")) {
     }
     $db->execute("UPDATE employee_internal_requests SET status='In Review' WHERE status='Closed'");
     $db->execute("ALTER TABLE employee_internal_requests MODIFY COLUMN status ENUM('Open','In Review','Completed') NOT NULL DEFAULT 'Open'");
+    $db->execute("ALTER TABLE employee_internal_requests MODIFY COLUMN request_type ENUM('Suggestion','Query','Resignation','Feedback','Complaint','Employee Certificate','Salary Certificate') NOT NULL");
 }
 
 $db->execute(
@@ -442,7 +443,7 @@ $db->execute(
     "CREATE TABLE IF NOT EXISTS employee_internal_requests (
         id INT AUTO_INCREMENT PRIMARY KEY,
         employee_id INT NOT NULL,
-        request_type ENUM('Suggestion','Query','Resignation','Feedback','Complaint') NOT NULL,
+        request_type ENUM('Suggestion','Query','Resignation','Feedback','Complaint','Employee Certificate','Salary Certificate') NOT NULL,
         to_role ENUM('Admin','HR','HOD') NOT NULL,
         subject VARCHAR(180) NOT NULL,
         message TEXT NOT NULL,

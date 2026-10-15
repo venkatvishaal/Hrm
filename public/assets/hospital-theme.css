@@ -76,26 +76,71 @@ body {
   max-width: none !important;
 }
 
-/* ── Modern Pure White Sidebar (Screens 2, 3, 5, 6, 7) ───────────────────── */
+/* ── Deep Clinical Slate Sidebar System (Screens 2, 3, 5, 6, 7) ───────────── */
 .sidebar,
-body.sidebar-menu-open .sidebar,
-body.sidebar-collapsed .sidebar {
-  width: 245px !important;
-  min-width: 245px !important;
-  max-width: 245px !important;
-  background: #ffffff !important;
-  color: #475569 !important;
+body[class*="role-"] .sidebar,
+body.sidebar-menu-open .sidebar {
+  width: 250px !important;
+  min-width: 250px !important;
+  max-width: 250px !important;
+  background: #071a18 !important;
+  background: linear-gradient(180deg, #071a18 0%, #0c2724 100%) !important;
+  color: #94a3b8 !important;
   display: flex !important;
   flex-direction: column !important;
-  padding: 16px 14px !important;
+  padding: 18px 14px !important;
   position: sticky !important;
   top: 0 !important;
   height: 100vh !important;
-  border-right: 1px solid #f1f5f9 !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
   z-index: 200 !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  box-shadow: none !important;
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.15) !important;
+  transition: width .2s ease, min-width .2s ease, max-width .2s ease, padding .2s ease !important;
+}
+
+/* Desktop Collapsed Sidebar State */
+body.sidebar-collapsed .sidebar,
+body[class*="role-"].sidebar-collapsed .sidebar {
+  width: 72px !important;
+  min-width: 72px !important;
+  max-width: 72px !important;
+  padding: 16px 8px !important;
+  align-items: center !important;
+}
+
+body.sidebar-collapsed .brand-block {
+  justify-content: center !important;
+  padding: 6px 0 16px !important;
+  gap: 0 !important;
+}
+
+body.sidebar-collapsed .brand-text,
+body.sidebar-collapsed .profile-meta,
+body.sidebar-collapsed .menu-section,
+body.sidebar-collapsed .employee-nav-section-title,
+body.sidebar-collapsed .nav-label,
+body.sidebar-collapsed .developer-help-desk .nav-label {
+  display: none !important;
+}
+
+body.sidebar-collapsed .sidebar a,
+body.sidebar-collapsed .sidebar-bottom-link,
+body.sidebar-collapsed .logout-link,
+body.sidebar-collapsed .sidebar-disabled-link {
+  justify-content: center !important;
+  padding: 10px 0 !important;
+  gap: 0 !important;
+  width: 48px !important;
+  margin: 2px auto !important;
+}
+
+body.sidebar-collapsed .developer-help-desk {
+  padding: 8px !important;
+  justify-content: center !important;
+  width: 48px !important;
+  margin: 14px auto 0 !important;
 }
 
 /* Sidebar Brand Header */
@@ -103,22 +148,23 @@ body.sidebar-collapsed .sidebar {
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
-  padding: 8px 8px 18px !important;
-  border-bottom: 1px solid #f1f5f9 !important;
+  padding: 6px 6px 16px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   margin-bottom: 12px !important;
   background: transparent !important;
 }
 
 .brand-mark {
-  width: 40px !important;
-  height: 40px !important;
-  min-width: 40px !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
   border-radius: 10px !important;
-  background: #0d474c !important;
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 2px 6px rgba(13,71,76,.2) !important;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.4) !important;
+  flex-shrink: 0 !important;
 }
 
 .brand-mark svg {
@@ -130,48 +176,153 @@ body.sidebar-collapsed .sidebar {
 .brand-text {
   display: flex !important;
   flex-direction: column !important;
+  min-width: 0 !important;
 }
 
 .brand-text h2 {
-  font-size: 15.5px !important;
+  font-size: 15px !important;
   font-weight: 800 !important;
-  color: #0f172a !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   margin: 0 !important;
   line-height: 1.2 !important;
-  letter-spacing: -.2px !important;
+  letter-spacing: -0.2px !important;
+  white-space: nowrap !important;
 }
 
 .brand-text span {
   font-size: 11px !important;
-  color: #94a3b8 !important;
-  font-weight: 500 !important;
+  color: #2dd4bf !important;
+  -webkit-text-fill-color: #2dd4bf !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+  text-transform: uppercase !important;
 }
 
-.sidebar-toggle, .mobile-nav-toggle {
-  display: none !important;
+/* Functional Desktop Sidebar Collapse Toggle */
+.sidebar-toggle {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  width: 28px !important;
+  height: 28px !important;
+  margin-left: auto !important;
+  border-radius: 6px !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #94a3b8 !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  transition: all .15s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.sidebar-toggle span {
+  display: block !important;
+  width: 14px !important;
+  height: 1.5px !important;
+  border-radius: 1px !important;
+  background: #94a3b8 !important;
+  transition: background .15s ease !important;
+}
+
+.sidebar-toggle:hover span {
+  background: #ffffff !important;
+}
+
+body.sidebar-collapsed .sidebar-toggle {
+  margin: 8px auto 0 !important;
+}
+
+/* Sidebar Profile Block */
+.profile-block {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 12px !important;
+  margin-bottom: 14px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+  border-radius: 10px !important;
+}
+
+.profile-photo-wrap {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+  background: #0f766e !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  flex-shrink: 0 !important;
+}
+
+.profile-photo-wrap img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.profile-meta {
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 0 !important;
+}
+
+.profile-meta strong {
+  font-size: 13px !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.profile-meta span {
+  font-size: 11px !important;
+  color: #2dd4bf !important;
+  -webkit-text-fill-color: #2dd4bf !important;
+  font-weight: 600 !important;
 }
 
 /* Sidebar Navigation Items */
-.menu-section {
+.menu-section,
+.employee-nav-section-title {
   font-size: 10.5px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.8px !important;
-  color: #94a3b8 !important;
+  color: rgba(94, 234, 212, 0.85) !important;
+  -webkit-text-fill-color: rgba(94, 234, 212, 0.85) !important;
   padding: 16px 12px 6px !important;
   margin: 0 !important;
 }
 
 .sidebar a,
+body .sidebar a,
+body[class*="role-"] .sidebar a,
 .sidebar-bottom-link,
-.logout-link {
+.logout-link,
+.sidebar-disabled-link {
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
   padding: 9px 12px !important;
   border-radius: 9px !important;
-  color: #475569 !important;
-  -webkit-text-fill-color: #475569 !important;
+  color: #94a3b8 !important;
+  -webkit-text-fill-color: #94a3b8 !important;
   font-size: 13.5px !important;
   font-weight: 500 !important;
   text-decoration: none !important;
@@ -183,38 +334,54 @@ body.sidebar-collapsed .sidebar {
 }
 
 .sidebar a:hover,
+body .sidebar a:hover,
+body[class*="role-"] .sidebar a:hover,
 .sidebar-bottom-link:hover {
-  background: #f8fafc !important;
-  color: #0f172a !important;
-  -webkit-text-fill-color: #0f172a !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.sidebar a:hover .nav-icon svg,
+.sidebar-bottom-link:hover .nav-icon svg {
+  stroke: #ffffff !important;
+  color: #ffffff !important;
 }
 
 .sidebar a.active,
+body .sidebar a.active,
+body[class*="role-"] .sidebar a.active,
+body.role-employee .sidebar a.active,
 .sidebar-bottom-link.active {
-  background: #e6f4f1 !important;
-  color: #0f766e !important;
-  -webkit-text-fill-color: #0f766e !important;
+  background: #0f766e !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(15, 118, 110, 0.45) !important;
 }
 
 .sidebar a.active .nav-icon svg,
 .sidebar-bottom-link.active .nav-icon svg {
-  fill: #0f766e !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+  color: #ffffff !important;
 }
 
 .nav-icon {
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  color: inherit !important;
 }
 
 .nav-icon svg {
   width: 18px !important;
   height: 18px !important;
-  fill: #64748b !important;
+  stroke: currentColor !important;
+  transition: all .15s ease !important;
 }
 
 .nav-label {
@@ -226,18 +393,32 @@ body.sidebar-collapsed .sidebar {
 }
 
 .logout-link {
-  color: #e11d48 !important;
-  -webkit-text-fill-color: #e11d48 !important;
+  color: #fb7185 !important;
+  -webkit-text-fill-color: #fb7185 !important;
   margin-top: auto !important;
   padding-top: 12px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
-.logout-link .nav-icon svg { fill: #e11d48 !important; }
-.logout-link:hover { background: #fff1f2 !important; }
+
+.logout-link .nav-icon svg {
+  stroke: #fb7185 !important;
+  fill: none !important;
+}
+
+.logout-link:hover {
+  background: rgba(244, 63, 94, 0.15) !important;
+  color: #fda4af !important;
+  -webkit-text-fill-color: #fda4af !important;
+}
+
+.logout-link:hover .nav-icon svg {
+  stroke: #fda4af !important;
+}
 
 /* Developer Help Desk Footer */
 .developer-help-desk {
-  background: #f8fafc !important;
-  border: 1px solid #e2e8f0 !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 10px !important;
   padding: 10px 12px !important;
   margin-top: 14px !important;
@@ -251,17 +432,23 @@ body.sidebar-collapsed .sidebar {
   display: block !important;
   font-size: 11.5px !important;
   font-weight: 700 !important;
-  color: #0f172a !important;
-  -webkit-text-fill-color: #0f172a !important;
+  color: #e2e8f0 !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
 }
 
 .developer-help-desk small {
   font-size: 10.5px !important;
-  color: #0f766e !important;
-  -webkit-text-fill-color: #0f766e !important;
+  color: #2dd4bf !important;
+  -webkit-text-fill-color: #2dd4bf !important;
   font-weight: 600 !important;
   line-height: 1.4 !important;
   display: block !important;
+}
+
+.developer-help-desk .nav-icon svg {
+  stroke: #2dd4bf !important;
+  fill: none !important;
+}
 }
 
 /* ── Main Content Area ────────────────────────────────────────────────────── */
@@ -450,7 +637,26 @@ body.sidebar-collapsed .sidebar {
   gap: 20px !important;
 }
 
+/* Fallback padding for template views without an inner .content-body wrapper */
+.content:not(:has(> .content-body)) {
+  padding: 0 0 40px 0 !important;
+}
+
+.content:not(:has(> .content-body)) > :not(.topbar):not(.ok):not(.err):not(.alert-popup-stack) {
+  margin-left: 28px !important;
+  margin-right: 28px !important;
+}
+
+.content:not(:has(> .content-body)) > :not(.topbar):not(.ok):not(.err):not(.alert-popup-stack):first-of-type {
+  margin-top: 24px !important;
+}
+
 /* Flash alerts */
+.content > .ok,
+.content > .err {
+  margin: 16px 28px 0 !important;
+}
+
 .ok, .login-success {
   background: #ecfdf5 !important;
   border: 1px solid #a7f3d0 !important;
@@ -994,193 +1200,6 @@ tr:hover td {
   display: none !important;
 }
 
-/* ── Clean White Sidebar System matching Screen 3 & Screen 4 ── */
-.sidebar,
-body .sidebar,
-body[class*="role-"] .sidebar,
-body.role-employee .sidebar,
-body.role-admin .sidebar,
-body.role-superadmin .sidebar,
-body.role-hr .sidebar,
-body.role-manager .sidebar,
-body.role-hod .sidebar,
-html.theme-dark .sidebar,
-body.theme-dark .sidebar {
-  width: 240px !important;
-  min-width: 240px !important;
-  max-width: 240px !important;
-  background: #ffffff !important;
-  border-right: 1px solid #e2e8f0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  padding: 24px 16px !important;
-  box-shadow: none !important;
-  color: #334155 !important;
-}
-
-.sidebar .brand-block,
-html.theme-dark .sidebar .brand-block {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  padding: 0 4px 20px 4px !important;
-  margin-bottom: 12px !important;
-  border-bottom: 1px solid #f1f5f9 !important;
-}
-
-.sidebar .brand-mark,
-html.theme-dark .sidebar .brand-mark {
-  width: 42px !important;
-  height: 42px !important;
-  border-radius: 12px !important;
-  background: #10b981 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-shrink: 0 !important;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
-}
-
-.sidebar .brand-text h2,
-html.theme-dark .sidebar .brand-text h2 {
-  font-size: 16px !important;
-  font-weight: 800 !important;
-  color: #0f172a !important;
-  margin: 0 !important;
-  line-height: 1.2 !important;
-  letter-spacing: -0.2px !important;
-}
-
-.sidebar .brand-text span,
-html.theme-dark .sidebar .brand-text span {
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  color: #0f766e !important;
-  letter-spacing: 0.3px !important;
-  text-transform: uppercase !important;
-}
-
-.sidebar .sidebar-toggle {
-  display: none !important;
-}
-
-.sidebar a,
-body .sidebar a,
-body[class*="role-"] .sidebar a,
-body.role-employee .sidebar a,
-html.theme-dark .sidebar a {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  padding: 10px 14px !important;
-  margin-bottom: 4px !important;
-  border-radius: 10px !important;
-  color: #475569 !important;
-  font-size: 13.5px !important;
-  font-weight: 600 !important;
-  text-decoration: none !important;
-  transition: all .15s ease !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.sidebar a .nav-icon,
-html.theme-dark .sidebar a .nav-icon {
-  width: 22px !important;
-  height: 22px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  color: #64748b !important;
-  flex-shrink: 0 !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-}
-
-.sidebar a .nav-icon svg,
-html.theme-dark .sidebar a .nav-icon svg {
-  width: 18px !important;
-  height: 18px !important;
-  fill: #64748b !important;
-  transition: fill .15s ease !important;
-}
-
-.sidebar a:hover,
-html.theme-dark .sidebar a:hover {
-  background: #f8fafc !important;
-  color: #0f172a !important;
-}
-
-.sidebar a:hover .nav-icon svg,
-html.theme-dark .sidebar a:hover .nav-icon svg {
-  fill: #0f172a !important;
-}
-
-/* Active Sidebar Link (Screen 4: soft mint/teal background) */
-.sidebar a.active,
-body .sidebar a.active,
-body[class*="role-"] .sidebar a.active,
-body.role-employee .sidebar a.active,
-html.theme-dark .sidebar a.active {
-  background: #e6f4f1 !important;
-  color: #0d474c !important;
-  font-weight: 700 !important;
-  border-left: none !important;
-  border: none !important;
-}
-
-.sidebar a.active .nav-icon,
-html.theme-dark .sidebar a.active .nav-icon {
-  background: transparent !important;
-}
-
-.sidebar a.active .nav-icon svg,
-html.theme-dark .sidebar a.active .nav-icon svg {
-  fill: #0d474c !important;
-}
-
-.sidebar a.logout-link,
-html.theme-dark .sidebar a.logout-link {
-  margin-top: auto !important;
-  color: #e11d48 !important;
-  border-top: 1px solid #f1f5f9 !important;
-  padding-top: 14px !important;
-}
-
-.sidebar a.logout-link .nav-icon svg,
-html.theme-dark .sidebar a.logout-link .nav-icon svg {
-  fill: #e11d48 !important;
-}
-
-.sidebar a.logout-link:hover,
-html.theme-dark .sidebar a.logout-link:hover {
-  background: #fff1f2 !important;
-  color: #be123c !important;
-}
-
-.sidebar .developer-help-desk,
-html.theme-dark .sidebar .developer-help-desk {
-  background: #f8fafc !important;
-  border: 1px solid #f1f5f9 !important;
-  border-radius: 10px !important;
-  padding: 10px 12px !important;
-  font-size: 11px !important;
-  color: #64748b !important;
-  margin-top: 8px !important;
-}
-
-.sidebar .developer-help-desk strong,
-html.theme-dark .sidebar .developer-help-desk strong {
-  color: #0f172a !important;
-}
-
-.sidebar .developer-help-desk .nav-icon svg,
-html.theme-dark .sidebar .developer-help-desk .nav-icon svg {
-  fill: #0284c7 !important;
-}
-
 /* ── Unified Healthcare Enterprise Buttons & Navigation Tabs ── */
 button:not(.btn-danger):not(.filter-pill):not(.filter-btn):not(.btn-secondary):not(.btn-muted),
 .btn-primary {
@@ -1263,4 +1282,867 @@ nav.tab-nav button.active,
   font-weight: 800 !important;
 }
 
+/* ── Clinical Operational Command Center (Employee Portal) ──────────────── */
+.clinical-ops-center {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
+/* Hero Identity & Clinical Shift Bar */
+.clinical-hero-banner {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.clinical-hero-identity {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.clinical-hero-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0f766e, #0d474c);
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 2px solid #e2e8f0;
+}
+
+.clinical-hero-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clinical-hero-text h1 {
+  margin: 0 0 4px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.clinical-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.clinical-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.clinical-meta-pill.facility {
+  background: #f0fdfa;
+  color: #0f766e;
+  border: 1px solid #ccfbf1;
+}
+
+.clinical-meta-pill.code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+/* Today's Shift Callout in Hero */
+.clinical-shift-callout {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #0f766e;
+  border-radius: 10px;
+  padding: 14px 20px;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.clinical-shift-info strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.clinical-shift-info span {
+  display: block;
+  font-size: 12.5px;
+  color: #475569;
+  margin-top: 2px;
+}
+
+.clinical-status-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.clinical-status-tag.active {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.clinical-status-tag.off {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.clinical-status-tag.leave {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+/* Responsive Grid Layout */
+.clinical-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .clinical-grid {
+    grid-template-columns: 1fr;
+  }
+  .clinical-shift-callout {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.clinical-main-col,
+.clinical-side-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Clinical Surface Card / Panel */
+.clinical-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.clinical-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.clinical-panel-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.clinical-panel-title-wrap svg {
+  width: 18px;
+  height: 18px;
+  fill: #0f766e;
+}
+
+.clinical-panel-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.clinical-panel-sub {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.clinical-panel-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0f766e;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.clinical-panel-link:hover {
+  text-decoration: underline;
+  color: #0d474c;
+}
+
+/* Action Queue Rows */
+.clinical-queue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.clinical-queue-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #f1f5f9;
+  background: #f8fafc;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s ease;
+}
+
+.clinical-queue-item:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
+}
+
+.clinical-queue-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.clinical-queue-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.clinical-queue-dot.urgent {
+  background: #ef4444;
+  box-shadow: 0 0 0 3px #fee2e2;
+}
+
+.clinical-queue-dot.action {
+  background: #f59e0b;
+  box-shadow: 0 0 0 3px #fef3c7;
+}
+
+.clinical-queue-dot.info {
+  background: #0f766e;
+  box-shadow: 0 0 0 3px #ccfbf1;
+}
+
+.clinical-queue-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clinical-queue-meta {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+.clinical-queue-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: #e2e8f0;
+  color: #334155;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Metric / Stats Summary Row */
+.clinical-stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.clinical-stat-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s ease;
+}
+
+.clinical-stat-box:hover {
+  background: #ffffff;
+  border-color: #0f766e;
+  transform: translateY(-1px);
+}
+
+.clinical-stat-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.clinical-stat-val {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 4px 0 2px 0;
+  font-feature-settings: "tnum" 1;
+}
+
+.clinical-stat-note {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* Weekly Duty Schedule Mini Strip */
+.clinical-roster-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+.clinical-roster-day {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 8px;
+  text-align: center;
+  min-width: 72px;
+  transition: border-color 0.15s ease;
+}
+
+.clinical-roster-day.is-today {
+  background: #f0fdfa;
+  border-color: #0f766e;
+  box-shadow: 0 0 0 1px #0f766e;
+}
+
+.clinical-day-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.clinical-roster-day.is-today .clinical-day-name {
+  color: #0f766e;
+}
+
+.clinical-day-date {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 3px 0 6px 0;
+  font-feature-settings: "tnum" 1;
+}
+
+.clinical-day-shift {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #334155;
+  white-space: nowrap;
+}
+
+.clinical-day-shift.active {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+.clinical-day-shift.off {
+  background: #f1f5f9;
+  color: #94a3b8;
+}
+
+/* Institutional Notice Items */
+.clinical-notice-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s ease;
+}
+
+.clinical-notice-row:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.clinical-notice-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0f766e;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.clinical-notice-bullet.is-unread {
+  background: #2563eb;
+  box-shadow: 0 0 0 2px #dbeafe;
+}
+
+.clinical-notice-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.clinical-notice-sub {
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Side Column Compact Widgets */
+.clinical-quick-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #0f172a;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.clinical-quick-action-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.clinical-quick-action-btn.primary {
+  background: #0f766e;
+  color: #ffffff;
+  border-color: #0f766e;
+}
+
+.clinical-quick-action-btn.primary:hover {
+  background: #0d474c;
+  border-color: #0d474c;
+}
+
+.clinical-empty-box {
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px dashed #cbd5e1;
+}
+
+/* ==========================================================================
+   Clinical Design Patterns (Adapted from Tabler, Pico CSS, & Bootstrap 5)
+   ========================================================================== */
+
+/* 0. Lucide Vector Icon Rules */
+.nav-icon svg.lucide-icon,
+body[class*="role-"] .nav-icon svg.lucide-icon,
+.clinical-icon.lucide-icon {
+  width: 18px !important;
+  height: 18px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  display: block !important;
+  flex-shrink: 0 !important;
+}
+
+/* 1. Status Ribbons & Priority Flags (Tabler-inspired) */
+.clinical-ribbon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.clinical-ribbon-urgent {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+}
+
+.clinical-ribbon-escalated {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fcd34d;
+}
+
+.clinical-ribbon-verified,
+.clinical-ribbon-success {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.clinical-ribbon-info {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #7dd3fc;
+}
+
+/* 2. Staff Presence Avatars & Duty Badges (Tabler-inspired) */
+.clinical-avatar {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: #334155;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.clinical-avatar-sm {
+  width: 30px;
+  height: 30px;
+  font-size: 11px;
+}
+
+.clinical-avatar-lg {
+  width: 48px;
+  height: 48px;
+  font-size: 16px;
+}
+
+.clinical-avatar-badge {
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-sizing: content-box;
+}
+
+.clinical-avatar-badge.online {
+  background: #16a34a;
+}
+
+.clinical-avatar-badge.leave {
+  background: #f59e0b;
+}
+
+.clinical-avatar-badge.offline {
+  background: #94a3b8;
+}
+
+/* 3. Native <dialog> Modal Architecture (Pico CSS-inspired) */
+dialog.clinical-dialog {
+  border: none;
+  border-radius: 14px;
+  padding: 0;
+  background: transparent;
+  max-width: 540px;
+  width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.25), 0 8px 10px -6px rgba(15, 23, 42, 0.15);
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+dialog.clinical-dialog::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+dialog.clinical-dialog article {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+dialog.clinical-dialog header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+dialog.clinical-dialog header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+dialog.clinical-dialog .dialog-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  line-height: 1;
+  transition: all 0.15s ease;
+}
+
+dialog.clinical-dialog .dialog-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+dialog.clinical-dialog .dialog-body {
+  padding: 20px;
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+dialog.clinical-dialog footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* 4. High-Density Clinical Data Tables (Bootstrap 5-inspired) */
+.clinical-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  margin-bottom: 20px;
+}
+
+.clinical-table-dense {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  font-feature-settings: "tnum" 1;
+  text-align: left;
+}
+
+.clinical-table-dense th {
+  background: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 9px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.clinical-table-dense td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #0f172a;
+  vertical-align: middle;
+}
+
+.clinical-table-dense tr:last-child td {
+  border-bottom: none;
+}
+
+.clinical-table-dense tr:hover td {
+  background: #f8fafc;
+}
+
+.clinical-table-dense .sticky-col {
+  position: sticky;
+  left: 0;
+  background: #ffffff;
+  z-index: 1;
+  box-shadow: 2px 0 4px -2px rgba(15, 23, 42, 0.1);
+}
+
+.clinical-table-dense tr:hover .sticky-col {
+  background: #f8fafc;
+}
+
+/* 5. Clinical KPI Cards (Tabler & Bootstrap-inspired) */
+.clinical-kpi-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.clinical-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.clinical-kpi-card.accent-teal {
+  border-left: 4px solid #0f766e;
+}
+
+.clinical-kpi-card.accent-blue {
+  border-left: 4px solid #0284c7;
+}
+
+.clinical-kpi-card.accent-green {
+  border-left: 4px solid #16a34a;
+}
+
+.clinical-kpi-card.accent-amber {
+  border-left: 4px solid #d97706;
+}
+
+.clinical-kpi-card.accent-red {
+  border-left: 4px solid #ef4444;
+}
+
+.clinical-kpi-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  margin: 0;
+}
+
+.clinical-kpi-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  font-feature-settings: "tnum" 1;
+}
+
+.clinical-kpi-sub {
+  font-size: 12px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Responsive adjustments for tablet and mobile viewports */
+@media (max-width: 768px) {
+  .clinical-hero-banner {
+    padding: 16px 18px !important;
+    gap: 14px !important;
+  }
+  .clinical-hero-identity {
+    gap: 12px !important;
+  }
+  .clinical-hero-text h1 {
+    font-size: 18px !important;
+  }
+  .clinical-shift-callout {
+    width: 100% !important;
+  }
+  .clinical-panel {
+    padding: 16px 18px !important;
+  }
+  .clinical-stat-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .clinical-roster-strip {
+    display: flex !important;
+    overflow-x: auto !important;
+    padding-bottom: 8px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .clinical-roster-day {
+    flex: 0 0 76px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .clinical-stat-row {
+    grid-template-columns: 1fr !important;
+  }
+  .clinical-hero-meta {
+    font-size: 11.5px !important;
+  }
+}

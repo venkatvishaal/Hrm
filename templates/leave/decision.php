@@ -75,27 +75,71 @@ $statusColor = $isPending ? '#b45309' : ($isApproved ? '#15803d' : '#b91c1c');
       </p>
     </div>
 
-    <!-- Decision Action Buttons -->
+    <!-- Decision Action Buttons with Native <dialog> Confirmations -->
     <?php if ($canDecide): ?>
       <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;padding-top:18px;border-top:1px solid #e2e8f0">
-        <form method="post" action="?route=leave.status">
-          <?= csrf_field() ?>
-          <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
-          <input type="hidden" name="status" value="Rejected">
-          <input type="hidden" name="next_route" value="leave.decision">
-          <input type="hidden" name="decision_id" value="<?= (int)$item['id'] ?>">
-          <button type="submit" class="btn-danger" style="padding:10px 20px;border-radius:10px;font-size:13px;font-weight:700">Reject Request</button>
-        </form>
+        <button type="button" class="btn-danger" style="padding:10px 20px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer" onclick="document.getElementById('rejectModal').showModal()">
+          Reject Request
+        </button>
 
-        <form method="post" action="?route=leave.status">
-          <?= csrf_field() ?>
-          <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
-          <input type="hidden" name="status" value="Approved">
-          <input type="hidden" name="next_route" value="leave.decision">
-          <input type="hidden" name="decision_id" value="<?= (int)$item['id'] ?>">
-          <button type="submit" class="btn-primary" style="background:#15803d;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:700">Approve Leave</button>
-        </form>
+        <button type="button" class="btn-primary" style="background:#15803d;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer" onclick="document.getElementById('approveModal').showModal()">
+          Approve Leave
+        </button>
       </div>
+
+      <!-- Native <dialog> Modal: Reject Confirmation (Pico CSS-inspired) -->
+      <dialog id="rejectModal" class="clinical-dialog">
+        <article>
+          <header>
+            <h3>Confirm Leave Rejection</h3>
+            <button type="button" class="dialog-close-btn" onclick="document.getElementById('rejectModal').close()" aria-label="Close">✕</button>
+          </header>
+          <div class="dialog-body">
+            <p style="margin:0 0 12px">Are you sure you want to <strong>reject</strong> this leave request for <strong><?= htmlspecialchars($empName) ?></strong>?</p>
+            <div style="background:#fef2f2;border:1px solid #fecaca;padding:12px 14px;border-radius:8px;font-size:12.5px;color:#991b1b;line-height:1.4">
+              ⚠️ This decision is final for Level <?= (int)$approvalLevel ?> and will update the staff leave ledger immediately.
+            </div>
+          </div>
+          <footer>
+            <button type="button" class="btn-compact" style="background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer" onclick="document.getElementById('rejectModal').close()">Cancel</button>
+            <form method="post" action="?route=leave.status" style="margin:0">
+              <?= csrf_field() ?>
+              <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
+              <input type="hidden" name="status" value="Rejected">
+              <input type="hidden" name="next_route" value="leave.decision">
+              <input type="hidden" name="decision_id" value="<?= (int)$item['id'] ?>">
+              <button type="submit" class="btn-danger" style="padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer">Confirm Rejection</button>
+            </form>
+          </footer>
+        </article>
+      </dialog>
+
+      <!-- Native <dialog> Modal: Approve Confirmation (Pico CSS-inspired) -->
+      <dialog id="approveModal" class="clinical-dialog">
+        <article>
+          <header>
+            <h3>Confirm Leave Approval</h3>
+            <button type="button" class="dialog-close-btn" onclick="document.getElementById('approveModal').close()" aria-label="Close">✕</button>
+          </header>
+          <div class="dialog-body">
+            <p style="margin:0 0 12px">Approve <strong><?= htmlspecialchars((string)$item['leave_type']) ?></strong> for <strong><?= htmlspecialchars($empName) ?></strong> from <strong><?= htmlspecialchars(fmt_date($item['start_date'])) ?></strong> to <strong><?= htmlspecialchars(fmt_date($item['end_date'])) ?></strong>?</p>
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;padding:12px 14px;border-radius:8px;font-size:12.5px;color:#166534;line-height:1.4">
+              ✓ Operational duty roster and attendance records will be updated automatically for Level <?= (int)$approvalLevel ?>.
+            </div>
+          </div>
+          <footer>
+            <button type="button" class="btn-compact" style="background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;padding:8px 16px;border-radius:8px;font-weight:600;cursor:pointer" onclick="document.getElementById('approveModal').close()">Cancel</button>
+            <form method="post" action="?route=leave.status" style="margin:0">
+              <?= csrf_field() ?>
+              <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
+              <input type="hidden" name="status" value="Approved">
+              <input type="hidden" name="next_route" value="leave.decision">
+              <input type="hidden" name="decision_id" value="<?= (int)$item['id'] ?>">
+              <button type="submit" class="btn-primary" style="background:#15803d;padding:8px 20px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer">Confirm Approval</button>
+            </form>
+          </footer>
+        </article>
+      </dialog>
     <?php else: ?>
       <div style="background:#f1f5f9;border-radius:10px;padding:14px 18px;font-size:13px;color:#64748b;text-align:center">
         This request has been finalized or is pending with another role in the hierarchy.

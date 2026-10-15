@@ -1,9 +1,9 @@
 <?php require __DIR__ . '/../layouts/header.php'; ?>
 <?php
   $hrName = (string)($user['name'] ?? 'HR Executive');
-  $pendingCount = count($pendingLeaves ?? []) ?: 8;
-  $approvedCount = count($approvedLeaves ?? []) ?: 24;
-  $rejectedCount = count($rejectedLeaves ?? []) ?: 5;
+  $pendingCount = count($pendingLeaves ?? []);
+  $approvedCount = count($approvedLeaves ?? []);
+  $rejectedCount = count($rejectedLeaves ?? []);
 ?>
 
 <div class="content-body">
@@ -69,44 +69,35 @@
         </div>
 
         <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#f8fafc;border-radius:12px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:50%;background:#e0f2fe;color:#0284c7;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">
-                RK
+          <?php if (!empty($pendingLeaves)): ?>
+            <?php foreach (array_slice($pendingLeaves, 0, 4) as $req): ?>
+              <?php
+                $fullName = trim((string)($req['first_name'] ?? '') . ' ' . (string)($req['last_name'] ?? ''));
+                $initials = strtoupper(substr((string)($req['first_name'] ?? 'U'), 0, 1) . substr((string)($req['last_name'] ?? 'S'), 0, 1));
+                $days = (int)($req['days'] ?? 1);
+                $type = (string)($req['leave_type'] ?? 'Leave');
+                $start = fmt_date($req['start_date'] ?? date('Y-m-d'));
+                $end = fmt_date($req['end_date'] ?? date('Y-m-d'));
+                $range = $start === $end ? $start : "$start – $end";
+              ?>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#f8fafc;border-radius:12px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="width:36px;height:36px;border-radius:50%;background:#e0f2fe;color:#0284c7;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">
+                    <?= htmlspecialchars($initials) ?>
+                  </div>
+                  <div>
+                    <strong style="display:block;font-size:13px;color:#0f172a"><?= htmlspecialchars($fullName ?: 'Staff Member') ?></strong>
+                    <span style="font-size:11.5px;color:#64748b"><?= htmlspecialchars($type) ?> • <?= $days ?> day<?= $days > 1 ? 's' : '' ?> (<?= htmlspecialchars($range) ?>)</span>
+                  </div>
+                </div>
+                <a href="?route=leave" style="padding:4px 12px;border-radius:6px;background:#0d474c;color:#ffffff;text-decoration:none;font-size:11.5px;font-weight:700">Review</a>
               </div>
-              <div>
-                <strong style="display:block;font-size:13px;color:#0f172a">Ravi Kumar</strong>
-                <span style="font-size:11.5px;color:#64748b">Sick Leave • 2 days (Oct 8 - Oct 9)</span>
-              </div>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <div style="padding:24px 16px;text-align:center;color:#64748b;font-size:13px;background:#f8fafc;border-radius:12px">
+              No pending leave requests requiring review.
             </div>
-            <a href="?route=leave" style="padding:4px 12px;border-radius:6px;background:#0d474c;color:#ffffff;text-decoration:none;font-size:11.5px;font-weight:700">Review</a>
-          </div>
-
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#f8fafc;border-radius:12px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:50%;background:#dcfce7;color:#16a34a;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">
-                NI
-              </div>
-              <div>
-                <strong style="display:block;font-size:13px;color:#0f172a">Neha Iyer</strong>
-                <span style="font-size:11.5px;color:#64748b">Earned Leave • 6 days (Oct 12 - Oct 17)</span>
-              </div>
-            </div>
-            <a href="?route=leave" style="padding:4px 12px;border-radius:6px;background:#0d474c;color:#ffffff;text-decoration:none;font-size:11.5px;font-weight:700">Review</a>
-          </div>
-
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#f8fafc;border-radius:12px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:50%;background:#fef3c7;color:#d97706;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">
-                SP
-              </div>
-              <div>
-                <strong style="display:block;font-size:13px;color:#0f172a">Suresh Patel</strong>
-                <span style="font-size:11.5px;color:#64748b">Casual Leave • 1 day (Oct 15)</span>
-              </div>
-            </div>
-            <a href="?route=leave" style="padding:4px 12px;border-radius:6px;background:#0d474c;color:#ffffff;text-decoration:none;font-size:11.5px;font-weight:700">Review</a>
-          </div>
+          <?php endif; ?>
         </div>
       </div>
 
@@ -118,31 +109,26 @@
         </div>
 
         <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid #e2e8f0;border-radius:12px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:10px;background:#e0f2fe;color:#0284c7;display:flex;align-items:center;justify-content:center;font-size:18px">
-                🫀
+          <?php if (!empty($upcomingTraining)): ?>
+            <?php foreach (array_slice($upcomingTraining, 0, 3) as $ts): ?>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid #e2e8f0;border-radius:12px">
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="width:36px;height:36px;border-radius:10px;background:#e0f2fe;color:#0284c7;display:flex;align-items:center;justify-content:center;font-size:18px">
+                    🎓
+                  </div>
+                  <div>
+                    <strong style="display:block;font-size:13px;color:#0f172a"><?= htmlspecialchars((string)($ts['title'] ?? 'Training Session')) ?></strong>
+                    <span style="font-size:11.5px;color:#64748b"><?= htmlspecialchars(fmt_date($ts['session_date'] ?? date('Y-m-d'))) ?> • <?= (int)($ts['participants'] ?? 0) ?> Enrolled</span>
+                  </div>
+                </div>
+                <span style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#e0f2fe;color:#0284c7">Upcoming</span>
               </div>
-              <div>
-                <strong style="display:block;font-size:13px;color:#0f172a">Basic Life Support (BLS)</strong>
-                <span style="font-size:11.5px;color:#64748b">Oct 15, 2026 • All Departments</span>
-              </div>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <div style="padding:24px 16px;text-align:center;color:#64748b;font-size:13px;background:#f8fafc;border-radius:12px">
+              No upcoming training sessions scheduled.
             </div>
-            <span style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#e0f2fe;color:#0284c7">Upcoming</span>
-          </div>
-
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid #e2e8f0;border-radius:12px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <div style="width:36px;height:36px;border-radius:10px;background:#fef2f2;color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:18px">
-                🧯
-              </div>
-              <div>
-                <strong style="display:block;font-size:13px;color:#0f172a">Fire Safety Training</strong>
-                <span style="font-size:11.5px;color:#64748b">Oct 28, 2026 • Support Staff</span>
-              </div>
-            </div>
-            <span style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;background:#e0f2fe;color:#0284c7">Upcoming</span>
-          </div>
+          <?php endif; ?>
         </div>
       </div>
     </div>

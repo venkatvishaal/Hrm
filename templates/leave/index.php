@@ -80,52 +80,52 @@ $totalRequests = array_sum($statusCounts ?? []);
   <!-- ── 4. Selected Employee Leave Balance Strip (If filtered) ── -->
   <?php if (!empty($employeeStats)): ?>
     <div style="display:grid;grid-template-columns:repeat(6, 1fr);gap:12px;margin-bottom:18px">
-      <div class="card" style="padding:14px;margin:0;text-align:center">
-        <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase">Available</span>
-        <strong style="display:block;font-size:18px;font-weight:800;color:#0f766e"><?= (int)$employeeStats['available'] ?></strong>
+      <div class="clinical-kpi-card accent-teal" style="padding:12px;text-align:center">
+        <span class="clinical-kpi-label">Available</span>
+        <div class="clinical-kpi-value" style="font-size:20px"><?= (int)$employeeStats['available'] ?></div>
       </div>
-      <div class="card" style="padding:14px;margin:0;text-align:center">
-        <span style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase">Availed</span>
-        <strong style="display:block;font-size:18px;font-weight:800;color:#334155"><?= (int)$employeeStats['availed'] ?></strong>
+      <div class="clinical-kpi-card accent-blue" style="padding:12px;text-align:center">
+        <span class="clinical-kpi-label">Availed</span>
+        <div class="clinical-kpi-value" style="font-size:20px"><?= (int)$employeeStats['availed'] ?></div>
       </div>
-      <div class="card" style="padding:14px;margin:0;text-align:center">
-        <span style="font-size:11px;font-weight:700;color:#b45309;text-transform:uppercase">Pending</span>
-        <strong style="display:block;font-size:18px;font-weight:800;color:#d97706"><?= (int)$employeeStats['pending'] ?></strong>
+      <div class="clinical-kpi-card accent-amber" style="padding:12px;text-align:center">
+        <span class="clinical-kpi-label">Pending</span>
+        <div class="clinical-kpi-value" style="font-size:20px"><?= (int)$employeeStats['pending'] ?></div>
       </div>
-      <div class="card" style="padding:14px;margin:0;text-align:center">
-        <span style="font-size:11px;font-weight:700;color:#15803d;text-transform:uppercase">Approved</span>
-        <strong style="display:block;font-size:18px;font-weight:800;color:#16a34a"><?= (int)$employeeStats['approved'] ?></strong>
+      <div class="clinical-kpi-card accent-green" style="padding:12px;text-align:center">
+        <span class="clinical-kpi-label">Approved</span>
+        <div class="clinical-kpi-value" style="font-size:20px"><?= (int)$employeeStats['approved'] ?></div>
       </div>
-      <div class="card" style="padding:14px;margin:0;text-align:center">
-        <span style="font-size:11px;font-weight:700;color:#b91c1c;text-transform:uppercase">Rejected</span>
-        <strong style="display:block;font-size:18px;font-weight:800;color:#ef4444"><?= (int)$employeeStats['rejected'] ?></strong>
+      <div class="clinical-kpi-card accent-red" style="padding:12px;text-align:center">
+        <span class="clinical-kpi-label">Rejected</span>
+        <div class="clinical-kpi-value" style="font-size:20px"><?= (int)$employeeStats['rejected'] ?></div>
       </div>
-      <div class="card" style="padding:14px;margin:0;text-align:center;background:#e6f4f1;border-color:#0f766e">
-        <span style="font-size:11px;font-weight:700;color:#0f766e;text-transform:uppercase">Net Balance</span>
-        <strong style="display:block;font-size:18px;font-weight:800;color:#0f766e"><?= (int)$employeeStats['balance'] ?></strong>
+      <div class="clinical-kpi-card accent-teal" style="padding:12px;text-align:center">
+        <span class="clinical-kpi-label">Net Balance</span>
+        <div class="clinical-kpi-value" style="font-size:20px"><?= (int)$employeeStats['balance'] ?></div>
       </div>
     </div>
   <?php endif; ?>
 
   <!-- ── 5. Enterprise Leave Requests Table ── -->
-  <div class="card" style="padding:0;margin:0;overflow:hidden">
-    <div style="padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">
+  <div class="clinical-table-wrapper" style="margin:0">
+    <div style="padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;background:#ffffff">
       <h3 style="font-size:15px;font-weight:700;color:#0f172a;margin:0">Staff Leave Requests</h3>
       <span style="font-size:12px;color:#64748b"><?= count($items) ?> request(s) found</span>
     </div>
 
-    <div class="table-scroll">
-      <table style="width:100%;border-collapse:collapse">
+    <div>
+      <table class="clinical-table-dense">
         <thead>
-          <tr style="background:#f8fafc;border-bottom:1px solid #e2e8f0;text-align:left">
-            <th style="padding:12px 18px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase">ID</th>
-            <th style="padding:12px 18px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase">Employee</th>
-            <th style="padding:12px 18px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase">Department</th>
-            <th style="padding:12px 18px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase">Leave Type</th>
-            <th style="padding:12px 18px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase">Dates</th>
-            <th style="padding:12px 18px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase">Reason</th>
-            <th style="padding:12px 18px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase">Status</th>
-            <th style="padding:12px 18px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase;text-align:right">Action</th>
+          <tr>
+            <th>ID</th>
+            <th>Employee</th>
+            <th>Department</th>
+            <th>Leave Type</th>
+            <th>Dates</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th style="text-align:right">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -153,14 +153,15 @@ $totalRequests = array_sum($statusCounts ?? []);
               $isTerminal = in_array($st, ['Approved', 'Rejected'], true);
               $canTakeDecision = !empty($canApprove) && !$isTerminal && in_array($role ?? '', $assignedRoles, true);
             ?>
-            <tr style="border-bottom:1px solid #f1f5f9;transition:background .15s" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-              <td style="padding:12px 18px;font-size:12.5px;font-weight:600;color:#64748b">
+            <tr>
+              <td style="font-weight:600;color:#64748b">
                 #<?= (int)$it['id'] ?>
               </td>
-              <td style="padding:12px 18px">
+              <td>
                 <div style="display:flex;align-items:center;gap:10px">
-                  <div style="width:34px;height:34px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#334155">
+                  <div class="clinical-avatar" style="width:34px;height:34px;font-size:12px;flex-shrink:0">
                     <?= htmlspecialchars(strtoupper(substr($fullName ?: 'Staff', 0, 1))) ?>
+                    <span class="clinical-avatar-badge <?= $isApproved ? 'leave' : 'online' ?>"></span>
                   </div>
                   <div>
                     <strong style="display:block;font-size:13px;color:#0f172a"><?= htmlspecialchars($fullName) ?></strong>
@@ -168,26 +169,26 @@ $totalRequests = array_sum($statusCounts ?? []);
                   </div>
                 </div>
               </td>
-              <td style="padding:12px 18px;font-size:12.5px;color:#475569">
+              <td style="color:#475569">
                 <?= htmlspecialchars((string)$it['department']) ?>
               </td>
-              <td style="padding:12px 18px">
+              <td>
                 <span style="display:inline-block;padding:3px 10px;border-radius:6px;font-size:11.5px;font-weight:600;background:#f1f5f9;color:#334155">
                   <?= htmlspecialchars((string)$it['leave_type']) ?><?= htmlspecialchars($permissionTimeRange($it)) ?>
                 </span>
               </td>
-              <td style="padding:12px 18px;font-size:12px;color:#334155;white-space:nowrap">
+              <td style="white-space:nowrap">
                 <?= htmlspecialchars(fmt_date($it['start_date'])) ?> – <?= htmlspecialchars(fmt_date($it['end_date'])) ?>
               </td>
-              <td style="padding:12px 18px;font-size:12px;color:#64748b;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+              <td style="color:#64748b;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
                 <?= htmlspecialchars((string)$it['reason']) ?>
               </td>
-              <td style="padding:12px 18px">
+              <td>
                 <span style="display:inline-block;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;background:<?= $statusBg ?>;color:<?= $statusColor ?>">
                   <?= htmlspecialchars($st) ?>
                 </span>
               </td>
-              <td style="padding:12px 18px;text-align:right">
+              <td style="text-align:right">
                 <a href="?route=leave.decision&id=<?= (int)$it['id'] ?>" style="display:inline-block;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;<?= $canTakeDecision ? 'background:#0d474c;color:#ffffff;' : 'background:#f1f5f9;color:#475569;' ?>">
                   <?= $canTakeDecision ? 'Review Decision' : 'View' ?>
                 </a>

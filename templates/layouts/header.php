@@ -169,33 +169,40 @@ if ($user) {
     if ($role === 'Employee') {
         $sidebarMenus = [
             ['menu_key' => 'dashboard', 'label' => 'Overview', 'route' => 'dashboard', 'section_name' => 'Workspace', 'icon_label' => 'D', 'sort_order' => 10],
+            ['menu_key' => 'employee_duty_roster', 'label' => 'Duty Roster', 'route' => 'employee-duty-roster', 'section_name' => 'Workspace', 'icon_label' => 'R', 'sort_order' => 15],
             ['menu_key' => 'employee_attendance', 'label' => 'Attendance', 'route' => 'employee-attendance', 'section_name' => 'Workspace', 'icon_label' => 'A', 'sort_order' => 20],
-            ['menu_key' => 'employee_leave', 'label' => 'Leave', 'route' => 'employee-leave-permission', 'section_name' => 'Workspace', 'icon_label' => 'L', 'sort_order' => 30],
-            ['menu_key' => 'employee_training', 'label' => 'Training', 'route' => 'employee-training-kpi', 'section_name' => 'Workspace', 'icon_label' => 'T', 'sort_order' => 40],
-            ['menu_key' => 'notifications', 'label' => 'Notices', 'route' => 'notifications', 'section_name' => 'Communication', 'icon_label' => 'N', 'sort_order' => 50],
-            ['menu_key' => 'employee_documents', 'label' => 'Documents', 'route' => 'employee-documents', 'section_name' => 'Communication', 'icon_label' => 'D', 'sort_order' => 60],
+            ['menu_key' => 'employee_leave', 'label' => 'Leave & Permissions', 'route' => 'employee-leave-permission', 'section_name' => 'Workspace', 'icon_label' => 'L', 'sort_order' => 30],
+            ['menu_key' => 'employee_training', 'label' => 'Training & KPI', 'route' => 'employee-training-kpi', 'section_name' => 'Workspace', 'icon_label' => 'T', 'sort_order' => 40],
+            ['menu_key' => 'employee_certificates', 'label' => 'Certificates', 'route' => 'employee-certificates', 'section_name' => 'Self Service', 'icon_label' => 'C', 'sort_order' => 45],
+            ['menu_key' => 'employee_documents', 'label' => 'Documents', 'route' => 'employee-documents', 'section_name' => 'Communication', 'icon_label' => 'D', 'sort_order' => 50],
+            ['menu_key' => 'notifications', 'label' => 'Notices', 'route' => 'notifications', 'section_name' => 'Communication', 'icon_label' => 'N', 'sort_order' => 60],
             ['menu_key' => 'employee_profile', 'label' => 'My Profile', 'route' => 'employee-profile', 'section_name' => 'Personal', 'icon_label' => 'P', 'sort_order' => 70],
-            ['menu_key' => 'settings', 'label' => 'Settings', 'route' => 'employee-profile', 'section_name' => 'System', 'icon_label' => 'S', 'sort_order' => 80],
         ];
     } elseif (in_array($role, ['Manager', 'HOD'], true)) {
         $sidebarMenus = [
             ['menu_key' => 'dashboard', 'label' => 'Dashboard', 'route' => 'dashboard', 'section_name' => '', 'icon_label' => 'D', 'sort_order' => 10],
             ['menu_key' => 'employee_directory', 'label' => 'My Team', 'route' => 'recruitment', 'section_name' => '', 'icon_label' => 'T', 'sort_order' => 20],
-            ['menu_key' => 'attendance', 'label' => 'Attendance', 'route' => 'attendance', 'section_name' => '', 'icon_label' => 'A', 'sort_order' => 30],
-            ['menu_key' => 'leave', 'label' => 'Leave Approvals', 'route' => 'leave', 'section_name' => '', 'icon_label' => 'L', 'sort_order' => 40],
-            ['menu_key' => 'training', 'label' => 'Training', 'route' => 'training', 'section_name' => '', 'icon_label' => 'T', 'sort_order' => 50],
-            ['menu_key' => 'performance', 'label' => 'Performance', 'route' => 'performance', 'section_name' => '', 'icon_label' => 'P', 'sort_order' => 60],
-            ['menu_key' => 'notifications', 'label' => 'Notices', 'route' => 'notifications', 'section_name' => '', 'icon_label' => 'N', 'sort_order' => 70],
         ];
+        if ($role === 'HOD') {
+            $sidebarMenus[] = ['menu_key' => 'duty_roster', 'label' => 'Duty Roster', 'route' => 'duty-roster', 'section_name' => '', 'icon_label' => 'R', 'sort_order' => 25];
+        }
+        $sidebarMenus = array_merge($sidebarMenus, [
+            ['menu_key' => 'leave', 'label' => 'Leave Approvals', 'route' => 'leave', 'section_name' => '', 'icon_label' => 'L', 'sort_order' => 30],
+            ['menu_key' => 'training', 'label' => 'Training', 'route' => 'training', 'section_name' => '', 'icon_label' => 'T', 'sort_order' => 40],
+            ['menu_key' => 'performance', 'label' => 'Performance', 'route' => 'performance', 'section_name' => '', 'icon_label' => 'P', 'sort_order' => 50],
+            ['menu_key' => 'notifications', 'label' => 'Notices', 'route' => 'notifications', 'section_name' => '', 'icon_label' => 'N', 'sort_order' => 60],
+        ]);
     } elseif ($role === 'HR') {
         $sidebarMenus = [
             ['menu_key' => 'dashboard', 'label' => 'Dashboard', 'route' => 'dashboard', 'section_name' => '', 'icon_label' => 'D', 'sort_order' => 10],
             ['menu_key' => 'employee_directory', 'label' => 'Employee Directory', 'route' => 'recruitment', 'section_name' => '', 'icon_label' => 'E', 'sort_order' => 20],
+            ['menu_key' => 'duty_roster', 'label' => 'Duty Roster', 'route' => 'duty-roster', 'section_name' => '', 'icon_label' => 'R', 'sort_order' => 25],
             ['menu_key' => 'recruitment', 'label' => 'Recruitment', 'route' => 'recruitment.create', 'section_name' => '', 'icon_label' => 'R', 'sort_order' => 30],
             ['menu_key' => 'leave', 'label' => 'Leave Management', 'route' => 'leave', 'section_name' => '', 'icon_label' => 'L', 'sort_order' => 40],
             ['menu_key' => 'training', 'label' => 'Training', 'route' => 'training', 'section_name' => '', 'icon_label' => 'T', 'sort_order' => 50],
             ['menu_key' => 'attendance', 'label' => 'Attendance', 'route' => 'attendance', 'section_name' => '', 'icon_label' => 'A', 'sort_order' => 60],
             ['menu_key' => 'documents', 'label' => 'Documents', 'route' => 'documents', 'section_name' => '', 'icon_label' => 'D', 'sort_order' => 70],
+            ['menu_key' => 'health-checkups', 'label' => 'Health Checks', 'route' => 'health-checkups', 'section_name' => '', 'icon_label' => 'H', 'sort_order' => 75],
             ['menu_key' => 'reports', 'label' => 'Reports', 'route' => 'reports', 'section_name' => '', 'icon_label' => 'R', 'sort_order' => 80],
             ['menu_key' => 'notifications', 'label' => 'Notifications', 'route' => 'notifications', 'section_name' => '', 'icon_label' => 'N', 'sort_order' => 90],
         ];
@@ -203,15 +210,16 @@ if ($user) {
         $sidebarMenus = [
             ['menu_key' => 'dashboard', 'label' => 'Dashboard', 'route' => 'dashboard', 'section_name' => '', 'icon_label' => 'D', 'sort_order' => 10],
             ['menu_key' => 'employee_directory', 'label' => 'Employees', 'route' => 'recruitment', 'section_name' => '', 'icon_label' => 'E', 'sort_order' => 20],
-            ['menu_key' => 'departments', 'label' => 'Departments', 'route' => 'departments', 'section_name' => '', 'icon_label' => 'D', 'sort_order' => 30],
-            ['menu_key' => 'recruitment', 'label' => 'Recruitment', 'route' => 'recruitment.create', 'section_name' => '', 'icon_label' => 'R', 'sort_order' => 40],
-            ['menu_key' => 'attendance', 'label' => 'Attendance', 'route' => 'attendance', 'section_name' => '', 'icon_label' => 'A', 'sort_order' => 50],
-            ['menu_key' => 'leave', 'label' => 'Leave', 'route' => 'leave', 'section_name' => '', 'icon_label' => 'L', 'sort_order' => 60],
-            ['menu_key' => 'payroll', 'label' => 'Payroll', 'route' => 'payroll', 'section_name' => '', 'icon_label' => 'P', 'sort_order' => 70],
-            ['menu_key' => 'training', 'label' => 'Training & KPI', 'route' => 'training', 'section_name' => '', 'icon_label' => 'T', 'sort_order' => 80],
-            ['menu_key' => 'reports', 'label' => 'Reports', 'route' => 'reports', 'section_name' => '', 'icon_label' => 'R', 'sort_order' => 90],
-            ['menu_key' => 'notifications', 'label' => 'Notifications', 'route' => 'notifications', 'section_name' => '', 'icon_label' => 'N', 'sort_order' => 100],
-            ['menu_key' => 'settings', 'label' => 'Settings', 'route' => 'settings', 'section_name' => '', 'icon_label' => 'S', 'sort_order' => 110],
+            ['menu_key' => 'departments', 'label' => 'Departments', 'route' => 'departments', 'section_name' => '', 'icon_label' => 'D', 'sort_order' => 25],
+            ['menu_key' => 'duty_roster', 'label' => 'Duty Roster', 'route' => 'duty-roster', 'section_name' => '', 'icon_label' => 'R', 'sort_order' => 30],
+            ['menu_key' => 'attendance', 'label' => 'Attendance', 'route' => 'attendance', 'section_name' => '', 'icon_label' => 'A', 'sort_order' => 40],
+            ['menu_key' => 'leave', 'label' => 'Leave', 'route' => 'leave', 'section_name' => '', 'icon_label' => 'L', 'sort_order' => 50],
+            ['menu_key' => 'training', 'label' => 'Training & KPI', 'route' => 'training', 'section_name' => '', 'icon_label' => 'T', 'sort_order' => 60],
+            ['menu_key' => 'documents', 'label' => 'Documents', 'route' => 'documents', 'section_name' => '', 'icon_label' => 'D', 'sort_order' => 70],
+            ['menu_key' => 'reports', 'label' => 'Reports', 'route' => 'reports', 'section_name' => '', 'icon_label' => 'R', 'sort_order' => 80],
+            ['menu_key' => 'users', 'label' => 'Users & Roles', 'route' => 'users', 'section_name' => '', 'icon_label' => 'U', 'sort_order' => 90],
+            ['menu_key' => 'settings', 'label' => 'Settings', 'route' => 'settings', 'section_name' => '', 'icon_label' => 'S', 'sort_order' => 100],
+            ['menu_key' => 'notifications', 'label' => 'Notifications', 'route' => 'notifications', 'section_name' => '', 'icon_label' => 'N', 'sort_order' => 110],
         ];
     }
 }
@@ -324,37 +332,45 @@ $menuDisabled = static function (string $route): bool {
 };
 $navIconSvg = static function (string $route, string $fallback): string {
     $baseRoute = strtok($route, '#');
-    $paths = [
-        'dashboard' => 'M4 13h7V4H4v9Zm9 7h7V4h-7v16ZM4 20h7v-5H4v5Z',
-        'recruitment' => 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4Zm-7 8c0-3.31 3.13-6 7-6s7 2.69 7 6H5Z',
-        'attendance' => 'M7 2h2v2h6V2h2v2h3v18H4V4h3V2Zm11 8H6v10h12V10Zm-9 3h2v2H9v-2Zm4 0h2v2h-2v-2Z',
-        'employee-attendance' => 'M7 2h2v2h6V2h2v2h3v18H4V4h3V2Zm11 8H6v10h12V10Zm-9 3h2v2H9v-2Zm4 0h2v2h-2v-2Z',
-        'employee-attendance-correction' => 'M5 4h10l4 4v12H5V4Zm9 1.5V9h3.5L14 5.5ZM8 13h8v2H8v-2Zm0 4h5v2H8v-2Z',
-        'employee-profile' => 'M12 12c2.2 0 4-1.8 4-4s-1.8-4-4-4-4 1.8-4 4 1.8 4 4 4Zm-7 8c.5-3.4 3.4-6 7-6s6.5 2.6 7 6H5Z',
-        'employee-onboarding' => 'M12 2a5 5 0 0 1 5 5v2h3v13H4V9h3V7a5 5 0 0 1 5-5Zm-3 7h6V7a3 3 0 0 0-6 0v2Z',
-        'employee-training-kpi' => 'M12 3 2 8l10 5 8-4v6h2V8L12 3Zm-6 9v4c2 2 10 2 12 0v-4l-6 3-6-3Z',
-        'duty-roster' => 'M4 4h16v4H4V4Zm0 6h4v10H4V10Zm6 0h4v10h-4V10Zm6 0h4v10h-4V10Z',
-        'leave' => 'M6 3h12v18H6V3Zm3 4h6v2H9V7Zm0 4h6v2H9v-2Zm0 4h4v2H9v-2Z',
-        'employee-leave-permission' => 'M6 3h12v18H6V3Zm3 4h6v2H9V7Zm0 4h6v2H9v-2Zm0 4h4v2H9v-2Z',
-        'documents' => 'M6 2h9l5 5v15H6V2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Z',
-        'employee-documents' => 'M6 2h9l5 5v15H6V2Zm8 1.5V8h4.5L14 3.5ZM8 12h8v2H8v-2Zm0 4h8v2H8v-2Z',
-        'employee-certificates' => 'M5 3h14v18l-7-3-7 3V3Zm4 5h6v2H9V8Zm0 4h6v2H9v-2Z',
-        'training' => 'M12 3 2 8l10 5 8-4v6h2V8L12 3Zm-6 9v4c2 2 10 2 12 0v-4l-6 3-6-3Z',
-        'onboarding' => 'M12 2a5 5 0 0 1 5 5v2h3v13H4V9h3V7a5 5 0 0 1 5-5Zm-3 7h6V7a3 3 0 0 0-6 0v2Z',
-        'performance' => 'M4 19h16v2H4v-2Zm2-8h3v6H6v-6Zm5-6h3v12h-3V5Zm5 3h3v9h-3V8Z',
-        'performance-leaderboard' => 'M7 21V9h4v12H7Zm6 0V3h4v18h-4ZM1 21v-7h4v7H1Zm18 0V6h4v15h-4Z',
-        'departments' => 'M3 21V3h8v18H3Zm10 0V7h8v14h-8ZM6 7h2v2H6V7Zm0 4h2v2H6v-2Zm10 0h2v2h-2v-2Zm0 4h2v2h-2v-2Z',
-        'designations' => 'M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4Zm-3 9 2 2 4-4 1.4 1.4L11 15.8l-3.4-3.4L9 11Z',
-        'reports' => 'M4 4h16v16H4V4Zm3 11h2v3H7v-3Zm4-6h2v9h-2V9Zm4 3h2v6h-2v-6Z',
-        'notifications' => 'M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2Zm6-6V11a6 6 0 0 0-5-5.92V4a1 1 0 0 0-2 0v1.08A6 6 0 0 0 6 11v5l-2 2v1h16v-1l-2-2Z',
-        'settings' => 'M19.4 13.5c.1-.5.1-1 .1-1.5s0-1-.1-1.5l2-1.5-2-3.5-2.4 1a8 8 0 0 0-2.6-1.5L14 2h-4l-.4 2.5A8 8 0 0 0 7 6L4.6 5 2.6 8.5l2 1.5c-.1.5-.1 1-.1 1.5s0 1 .1 1.5l-2 1.5 2 3.5 2.4-1a8 8 0 0 0 2.6 1.5L10 22h4l.4-2.5A8 8 0 0 0 17 18l2.4 1 2-3.5-2-1.5ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z',
-        'users' => 'M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3ZM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Zm0 2c-2.67 0-6 1.34-6 4v2h12v-2c0-2.66-3.33-4-6-4Z',
+    $icons = [
+        'dashboard' => '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+        'recruitment' => '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+        'attendance' => '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+        'employee-attendance' => '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+        'employee-attendance-correction' => '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/>',
+        'employee-profile' => '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+        'employee-onboarding' => '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>',
+        'onboarding' => '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>',
+        'employee-training-kpi' => '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+        'training' => '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+        'duty-roster' => '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/>',
+        'leave' => '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4"/><path d="M16 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
+        'employee-leave-permission' => '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4"/><path d="M16 2v4"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
+        'documents' => '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+        'employee-documents' => '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+        'employee-certificates' => '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+        'health-checkups' => '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>',
+        'payroll' => '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
+        'allowances' => '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>',
+        'performance' => '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+        'performance-leaderboard' => '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+        'departments' => '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+        'designations' => '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+        'reports' => '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+        'notifications' => '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+        'settings' => '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+        'users' => '<circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m21.7 16.4-.9-.3"/><path d="m15.2 13.9-.9-.3"/><path d="m16.6 18.7.3-.9"/><path d="m19.1 12.2.3-.9"/><path d="m19.6 18.7-.4-1"/><path d="m16.8 12.3-.4-1"/><path d="m14.3 16.6 1-.4"/><path d="m20.7 14.2 1-.4"/>',
+        'organisational-hierarchy' => '<rect width="6" height="6" x="16" y="16" rx="1"/><rect width="6" height="6" x="2" y="16" rx="1"/><rect width="6" height="6" x="9" y="2" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+        'exit' => '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>',
+        'audit' => '<path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M4 12a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-4Z"/><path d="M4 4v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6a2 2 0 0 0-2 2Z"/>',
+        'menu_rbac' => '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/>',
+        'menu-rbac' => '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/>',
     ];
-    $path = $paths[$baseRoute] ?? '';
-    if ($path === '') {
-        $path = 'M12 2 4 6v12l8 4 8-4V6l-8-4Zm0 2.2 5.5 2.75L12 9.7 6.5 6.95 12 4.2ZM6 8.6l5 2.5v7.7l-5-2.5V8.6Zm7 10.2v-7.7l5-2.5v7.7l-5 2.5Z';
+    $inner = $icons[$baseRoute] ?? $icons[str_replace('_', '-', $baseRoute)] ?? '';
+    if ($inner === '') {
+        $inner = '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>';
     }
-    return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="' . htmlspecialchars($path) . '"></path></svg>';
+    return '<svg class="lucide-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' . $inner . '</svg>';
 };
 ?>
 <div class="shell">

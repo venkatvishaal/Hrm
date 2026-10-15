@@ -217,10 +217,12 @@ class MainController
         }
         $unread = $this->notifications->unreadForUser((int)$user['id']);
 
-        // Single query replaces 9 separate COUNT() round-trips.
+        // Single query replaces separate COUNT() round-trips.
         $rawCounts = $this->db->fetch(
             "SELECT
                 (SELECT COUNT(*) FROM employees)                                                             AS employees,
+                (SELECT COUNT(*) FROM employees WHERE LOWER(position) LIKE '%doctor%' OR LOWER(position) LIKE '%physician%' OR LOWER(position) LIKE '%dmo%') AS doctors,
+                (SELECT COUNT(*) FROM employees WHERE LOWER(position) LIKE '%nurse%')                       AS nurses,
                 (SELECT COUNT(*) FROM employee_onboarding WHERE status <> 'Completed')                      AS onboarding,
                 (SELECT COUNT(*) FROM employee_training WHERE status <> 'Completed')                        AS training,
                 (SELECT COUNT(*) FROM leave_requests)                                                       AS leaves,
@@ -233,8 +235,16 @@ class MainController
                    AND next_due_date <= DATE_ADD(CURDATE(), INTERVAL 30 DAY))                               AS health_due"
         ) ?: [];
 
+        $totalEmp = (int)($rawCounts['employees'] ?? 0);
+        $docCount = (int)($rawCounts['doctors']   ?? 0);
+        $nurCount = (int)($rawCounts['nurses']    ?? 0);
+        $supCount = max(0, $totalEmp - $docCount - $nurCount);
+
         $counts = [
-            'employees'        => (int)($rawCounts['employees']        ?? 0),
+            'employees'        => $totalEmp,
+            'doctors'          => $docCount,
+            'nurses'           => $nurCount,
+            'support'          => $supCount,
             'onboarding'       => (int)($rawCounts['onboarding']       ?? 0),
             'training'         => (int)($rawCounts['training']         ?? 0),
             'leaves'           => (int)($rawCounts['leaves']           ?? 0),
@@ -245,7 +255,14 @@ class MainController
             'health_due'       => (int)($rawCounts['health_due']       ?? 0),
         ];
 
-        View::render('dashboard/index', compact('user', 'unread', 'counts'));
+        $recentActivities = $this->db->fetchAll(
+            "SELECT a.*, u.name as user_name, u.role
+             FROM audit_trail a
+             LEFT JOIN users u ON u.id = a.user_id
+             ORDER BY a.id DESC LIMIT 4"
+        );
+
+        View::render('dashboard/index', compact('user', 'unread', 'counts', 'recentActivities'));
     }
 
     public function managerDashboard(): void
@@ -257,21 +274,21 @@ class MainController
         $department = (string)($managerEmployee['department'] ?? 'Medical');
 
         $teamMembers = $this->db->fetchAll('SELECT id, first_name, last_name, position, email, phone FROM employees WHERE department=:dept ORDER BY first_name ASC', ['dept' => $department]);
-        $teamCount = count($teamMembers) > 0 ? count($teamMembers) : 28;
+        $teamCount = count($teamMembers);
 
         $today = date('Y-m-d');
         $onLeaveToday = $this->db->fetchAll(
-            "SELECT lr.*, e.first_name, e.last_name, e.position 
+            "SELECT lr.*, e.first_name, e.last_name, e.position
              FROM leave_requests lr
              JOIN employees e ON e.id = lr.employee_id
-             WHERE e.department = :dept AND lr.status = 'Approved' 
+             WHERE e.department = :dept AND lr.status = 'Approved'
                AND :today BETWEEN lr.start_date AND lr.end_date",
             ['dept' => $department, 'today' => $today]
         );
-        $onLeaveCount = count($onLeaveToday) > 0 ? count($onLeaveToday) : 4;
+        $onLeaveCount = count($onLeaveToday);
 
         $teamLeaveRequests = $this->db->fetchAll(
-            "SELECT lr.*, e.first_name, e.last_name, e.position 
+            "SELECT lr.*, e.first_name, e.last_name, e.position
              FROM leave_requests lr
              JOIN employees e ON e.id = lr.employee_id
              WHERE e.department = :dept
@@ -283,9 +300,6 @@ class MainController
             if (strcasecmp((string)$req['status'], 'Pending') === 0) {
                 $pendingApprovalsCount++;
             }
-        }
-        if ($pendingApprovalsCount === 0) {
-            $pendingApprovalsCount = 6;
         }
 
         $upcomingTraining = $this->db->fetchAll(
@@ -327,11 +341,29 @@ class MainController
              ORDER BY lr.id DESC LIMIT 6"
         );
 
+        $this->ensureWorkforceFeatureTables();
+        $openPositionsRow = $this->db->fetch(
+            "SELECT COALESCE(SUM(vacancies), 0) as total FROM manpower_requisitions WHERE status IN ('Pending', 'Approved')"
+        );
+        $openPositionsCount = (int)($openPositionsRow['total'] ?? 0);
+        $totalReqRow = $this->db->fetch(
+            "SELECT COUNT(*) as total FROM manpower_requisitions"
+        );
+        $totalRequisitions = (int)($totalReqRow['total'] ?? 0);
+        $shortlistedRow = $this->db->fetch(
+            "SELECT COUNT(*) as total FROM manpower_requisitions WHERE status = 'Approved'"
+        );
+        $shortlistedCount = (int)($shortlistedRow['total'] ?? 0);
+        $interviewsRow = $this->db->fetch(
+            "SELECT COUNT(*) as total FROM manpower_requisitions WHERE status = 'In Review'"
+        );
+        $interviewsCount = (int)($interviewsRow['total'] ?? 0);
+
         $recruitmentStats = [
-            'open_positions' => 3,
-            'applications' => 48,
-            'shortlisted' => 8,
-            'interviews' => 4
+            'open_positions' => $openPositionsCount,
+            'applications' => $totalRequisitions,
+            'shortlisted' => $shortlistedCount,
+            'interviews' => $interviewsCount
         ];
 
         $upcomingTraining = $this->db->fetchAll(
@@ -4588,6 +4620,20 @@ class MainController
 
     public function processLeaveApprovalEscalations(): void
     {
+        // Throttle execution to at most once every 5 minutes to prevent DB thrashing on rapid navigation
+        static $lastChecked = 0;
+        $now = time();
+        if ($now - $lastChecked < 300) {
+            return;
+        }
+        $cacheFile = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . 'last_escalation_check.txt';
+        if (is_file($cacheFile) && ($now - (int)@file_get_contents($cacheFile) < 300)) {
+            $lastChecked = $now;
+            return;
+        }
+        @file_put_contents($cacheFile, (string)$now);
+        $lastChecked = $now;
+
         $hierarchy = $this->leavePermissionApprovalHierarchyConfig();
         $pending = $this->db->fetchAll(
             "SELECT lr.id,lr.leave_type,lr.created_at,e.first_name,e.last_name
